@@ -136,7 +136,7 @@ create_tasks_for_tiles() {
 		else
 			echo "Creating task ${tilename}"
 			create_task "cvat-tup ${tilename}" "${SRC_DIR}/${tilename}"
-			
+
 			# Limit the number of tasks created.
 			((count+=1))
 			if [ ${count} -ge ${max_count} ]; then
