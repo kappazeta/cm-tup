@@ -130,12 +130,17 @@ create_tasks_for_tiles() {
 	local count=0
 	local tilename=''
 	for dir in ${SRC_DIR}/tile_*/; do
+		# Extract tile_1536_1024 from the dir path.
 		tilename=$(basename ${dir})
-		if [[ "${tasks[@]}" =~ "${tilename}" ]]; then
-			echo "Task ${tilename} exists"
+		# Extract S2A_T35VLF_20200529T120441 from S2A_MSIL2A_20200529T094041_N0214_R036_T35VLF_20200529T120441.
+		parentname=$(echo ${dir} | sed 's/.*\/\(S2[A|B]\)_MSIL2A_[^_]\+_[^_]\+_[^_]\+_\([^.]\+\).CVAT\/.*/\1_\2/g')
+		# Produce a task name such as S2A_T35VLF_20200529T120441_tile_1536_1024.
+		taskname="${parentname}_${tilename}"
+		if [[ "${tasks[@]}" =~ "${taskname}" ]]; then
+			echo "Task ${taskname} exists"
 		else
-			echo "Creating task ${tilename}"
-			create_task "cvat-tup ${tilename}" "${SRC_DIR}/${tilename}"
+			echo "Creating task ${taskname}"
+			create_task "${taskname}" "${SRC_DIR}/${tilename}"
 
 			# Limit the number of tasks created.
 			((count+=1))
