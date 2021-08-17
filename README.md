@@ -2,7 +2,7 @@
 
 Scripts to create CVAT or Segments.AI tasks from a directory of tiles.
 
-## Setup for CVAT
+## Setup for CVAT and segments.ai
 
 1. Clone the CVAT repository if you don't have it yet.
 
@@ -65,3 +65,17 @@ An example `classes.json` file:
 
         ./bin/cvat-tup.sh YOUR_PATH
 
+## Segments.ai configuration and running
+
+1. First, you need to have an user account on https://segments.ai
+2. Under `bin` directory, segments-ai-uploader.py is used to upload tiles in your dataset.
+It should be configured in the following way:
+
+- `#unique_client_id` should be replaced with a newly generated API key from your segments.ai user profile;
+ 
+- `#dataset_name` should be replaced with a full dataset name (e.g. your_user_name/playground);
+
+- `#path_to_directory_with_subtiles` should be replaced with a full path to a directory with subtiles. By default the script expects the folder to be a collection of products with tiles inside (e.g. target_directory/product_name/tile_x_y.png). To change the nesting level and search for tiles right inside the specified directory `/**/*.png` can be changed to `/*.png`, where * is a wildcard character.
+ 
+3. When the configuration is done, run the script by typing `python segments-ai-uploader.py` under `cvat-cli` conda environment.
+ 
